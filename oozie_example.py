@@ -4,7 +4,8 @@ from shutil import copyfile
 import utilities
 
 benchmark_folder = 'tagged_wf_sla_input'
-main_dir = os.getcwd()
+main_dir = os.path.dirname(os.path.realpath(__file__))
+os.chdir(main_dir)
 
 
 def download_benchmark():
@@ -62,6 +63,7 @@ def run_benchmark():
         print('\nOozie benchmark Done')
     except KeyboardInterrupt:
         benchmark_popen.terminate()
+        exit()
     os.chdir(main_dir)
 
 

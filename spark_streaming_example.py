@@ -4,7 +4,8 @@ import glob
 from subprocess import PIPE, Popen
 import utilities
 
-main_dir = os.getcwd()
+main_dir = os.path.dirname(os.path.realpath(__file__))
+os.chdir(main_dir)
 benchmark_folder = 'streaming-app-example-with-sources'
 
 
@@ -16,6 +17,8 @@ def download_streaming_demo():
         if download_popen.returncode != 0:
             print('Download Spark Streaming benchmark failed')
             exit(1)
+        else:
+            print('Download Spark Streaming benchmark success')
 
         print(Popen('unzip %s.zip' % benchmark_folder, shell=True, stdout=PIPE).communicate()[0])
 
@@ -66,7 +69,10 @@ def run_streaming_demo():
     except KeyboardInterrupt:
         streaming_app_popen.terminate()
         producer_popen.terminate()
+        exit()
     os.chdir(main_dir)
+    print('\nSpark streaming demo completed')
+
 
 def spark_streaming_example():
     download_streaming_demo()

@@ -12,14 +12,14 @@ import utilities
 def main():
     utilities.args_parser()
     argv = utilities.argv
-    script_path = os.chdir(os.path.dirname(os.path.realpath(__file__)))
+    script_path = os.path.dirname(os.path.realpath(__file__))
     os.chdir(script_path)
+    if argv.spark or argv.hive or argv.workflow or argv.impala or argv.spark_streaming:
+        TEST_ALL = False
+    else:
+        TEST_ALL = True
 
-    if argv.spark:
-        SE.spark_example()
-        # threading.Thread(target=SE.spark_example()).start()
-
-    if argv.hive:
+    if argv.hive or TEST_ALL:
         has_tpcds = 'tpcds_text_%s' % str(argv.dataset_size) in \
                     Popen('hive -e \'show databases;\'', shell=True, stdout=PIPE).communicate()[0]
         if not has_tpcds:
@@ -29,14 +29,18 @@ def main():
         HE.hive_example()
         # threading.Thread(target=).start()
 
-    if argv.workflow:
-        OE.oozie_example()
-
-    if argv.impala:
-        IE.impala_example(argv.impala_server)
+    if argv.impala or TEST_ALL:
+        IE.impala_example()
         # threading.Thread(target=).start()
 
-    if argv.spark_streaming:
+    if argv.workflow or TEST_ALL:
+        OE.oozie_example()
+
+    if argv.spark or TEST_ALL:
+        SE.spark_example()
+        # threading.Thread(target=SE.spark_example()).start()
+
+    if argv.spark_streaming or TEST_ALL:
         SS.spark_streaming_example()
         # threading.Thread(target=).start()
 

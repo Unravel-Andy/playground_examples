@@ -13,9 +13,9 @@
 
 **To run part of the example use one of the following arguments:**
 
-[-spark] [-hive] [-workflow] [--spark-steaming]
+[-spark] [-hive] [-workflow] [--spark-steaming] [-impala]
 
-**By default all serer address is using localhost:**
+**By default all server address are using localhost:**
 
 [--hive-host] [--hdfs-master] [--impala-server]
 
