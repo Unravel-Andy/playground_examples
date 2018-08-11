@@ -14,8 +14,8 @@ def run_impala_example():
         impala_popen = Popen("./run_exp.sh tpcds_text_{0} {1}".format(utilities.argv.dataset_size, utilities.argv.impala_server), shell=True,
                              stderr=FNULL, stdout=FNULL)
     else:
-        if utilities.argv.impala_query < 10:
-            utilities.argv.impala_query = '{:02d}'.format(utilities.argv.impala_query)
+        if int(utilities.argv.impala_query) < 10:
+            utilities.argv.impala_query = '{:02d}'.format(int(utilities.argv.impala_query))
         impala_popen = Popen("./run_one.sh tpcds_text_{0} query{1}.sql {2}".format(utilities.argv.dataset_size, utilities.argv.impala_query, utilities.argv.impala_server), shell=True, stderr=FNULL, stdout=FNULL)
     try:
         while impala_popen.poll() is None:

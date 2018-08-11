@@ -2,9 +2,11 @@
 
 **Requirements:**
 
-1.Internet access to download file from preview.unraveldata.com
+1.Internet access to download files from preview.unraveldata.com and hive-testbench from github
 
 2.zip and tar command
+
+3.Python 2.6 and newer (Python 2.6 requires argparse module)
 
 
 **To run the examples:**
