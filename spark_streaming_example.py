@@ -49,7 +49,7 @@ def prep_streaming_demo(hdfs_master='localhost'):
         if cluster_type == 'CDH':
             cdh_lib = 'export CDH_LIB=/opt/cloudera/parcels/CDH/lib/hadoop/client'
         else:
-            cdh_lib = 'export CDH_LIB=%s' % glob.glob('/usr/hdp/[2-3]*/falcon/client/lib/')
+            cdh_lib = 'export CDH_LIB=%s' % glob.glob('/usr/hdp/[2-3]*/falcon/client/lib/')[0]
         producer_content = re.sub('export CDH_LIB=.*', cdh_lib, producer_content)
         f.seek(0)
         f.truncate()
