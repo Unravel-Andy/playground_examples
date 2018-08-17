@@ -14,7 +14,7 @@ def main():
     argv = utilities.argv
     script_path = os.path.dirname(os.path.realpath(__file__))
     os.chdir(script_path)
-    if argv.spark or argv.hive or argv.workflow or argv.impala or argv.spark_streaming or argv.impala_server or argv.impala_query:
+    if argv.spark or argv.hive or argv.workflow or argv.impala or argv.spark_streaming:
         TEST_ALL = False
     else:
         TEST_ALL = True
