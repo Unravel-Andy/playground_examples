@@ -4,7 +4,7 @@ import utilities
 from time import sleep
 
 main_dir = os.path.dirname(os.path.realpath(__file__))
-os.chdir('sample-queries-tpcds')
+os.chdir(main_dir)
 
 
 def prepare_hive_benchmark():
@@ -13,6 +13,7 @@ def prepare_hive_benchmark():
 
 def run_hive_benchmark():
     FNULL = open(os.devnull, 'w')
+    os.chdir('sample-queries-tpcds')
     hive_popen = Popen('hive -i init76Pre.txt -f query76.sql', stderr=FNULL, stdout=FNULL, shell=True)
     try:
         while hive_popen.poll() is None:

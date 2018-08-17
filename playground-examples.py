@@ -23,7 +23,7 @@ def main():
         HE.hive_example()
         # threading.Thread(target=).start()
 
-    if argv.impala or argv.impala_server != 'localhost' or argv.impala_query != '1' or TEST_ALL:
+    if argv.impala or argv.impala_server != 'localhost' or argv.impala_query != 1 or TEST_ALL:
         IE.impala_example()
         # threading.Thread(target=).start()
 
