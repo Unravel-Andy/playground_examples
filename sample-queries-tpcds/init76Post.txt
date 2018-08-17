@@ -1,0 +1,11 @@
+use tpcds_bin_partitioned_orc_100;
+set mapreduce.input.fileinputformat.split.maxsize=247582205;
+set hive.exec.reducers.bytes.per.reducer=272340425;
+set mapreduce.map.memory.mb=951;
+set mapreduce.map.java.opts=-Xmx761m;
+set mapreduce.reduce.memory.mb=621;
+set mapreduce.reduce.java.opts=-Xmx497m;
+set com.unraveldata.event.threshold.hive.exec.parallel.duration=0;
+set hive.exec.parallel = true;
+set com.unraveldata.event.threshold.hive.exec.parallel.num.jobs=2;
+set com.unraveldata.event.map.duration.too.short=30000;

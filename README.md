@@ -23,3 +23,9 @@
 
 **There are these 3 arguments to controll which query/example to run:**
 [--dateset-size] [--impala-query] [--spark-example]
+
+<br/>
+
+**In order to get hive before and after Set these in Clouder Manager (CM) and restart CM:**
+1. yarn.scheduler.minimum-allocation-mb to 256 Mib
+2. yarn.scheduler.increment-allocation-mb to 128 MiB

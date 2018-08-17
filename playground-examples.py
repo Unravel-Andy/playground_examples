@@ -14,22 +14,16 @@ def main():
     argv = utilities.argv
     script_path = os.path.dirname(os.path.realpath(__file__))
     os.chdir(script_path)
-    if argv.spark or argv.hive or argv.workflow or argv.impala or argv.spark_streaming:
+    if argv.spark or argv.hive or argv.workflow or argv.impala or argv.spark_streaming or argv.impala_server or argv.impala_query:
         TEST_ALL = False
     else:
         TEST_ALL = True
 
     if argv.hive or TEST_ALL:
-        has_tpcds = 'tpcds_text_%s' % str(argv.dataset_size) in \
-                    Popen('hive -e \'show databases;\'', shell=True, stdout=PIPE).communicate()[0]
-        if not has_tpcds:
-            utilities.download_benchmark()
-            utilities.build_tpcds()
-            utilities.setup_tpcds(argv.hive_host, argv.dataset_size)
         HE.hive_example()
         # threading.Thread(target=).start()
 
-    if argv.impala or argv.impala_server != 'localhost' or TEST_ALL:
+    if argv.impala or argv.impala_server != 'localhost' or argv.impala_query or TEST_ALL:
         IE.impala_example()
         # threading.Thread(target=).start()
 
