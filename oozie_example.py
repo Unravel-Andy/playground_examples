@@ -10,7 +10,7 @@ os.chdir(main_dir)
 
 def download_benchmark():
     if not os.path.isdir(benchmark_folder):
-        download_popen = Popen('curl http://preview.unraveldata.com/img/tagged_wf_sla_input.tgz -o %s.tgz' % benchmark_folder, shell=True, stdout=PIPE)
+        download_popen = Popen('curl https://preview.unraveldata.com/img/tagged_wf_sla_input.tgz -o %s.tgz' % benchmark_folder, shell=True, stdout=PIPE)
         download_popen.wait()
         if download_popen.returncode != 0:
             print('Download oozie demo failed')

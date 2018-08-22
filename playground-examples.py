@@ -6,6 +6,7 @@ import hive_example as HE
 import oozie_example as OE
 import spark_streaming_example as SS
 import impala_example as IE
+import autoaction_example as AE
 import utilities
 
 
@@ -14,7 +15,7 @@ def main():
     argv = utilities.argv
     script_path = os.path.dirname(os.path.realpath(__file__))
     os.chdir(script_path)
-    if argv.spark or argv.hive or argv.workflow or argv.impala or argv.spark_streaming:
+    if argv.spark or argv.hive or argv.workflow or argv.impala or argv.spark_streaming or argv.autoaction:
         TEST_ALL = False
     else:
         TEST_ALL = True
@@ -38,6 +39,8 @@ def main():
         SS.spark_streaming_example()
         # threading.Thread(target=).start()
 
+    if argv.autoaction or TEST_ALL:
+        AE.autoaction_example()
 
 if __name__ == '__main__':
     main()

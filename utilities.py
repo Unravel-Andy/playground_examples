@@ -15,6 +15,7 @@ def args_parser():
     parser.add_argument('-hive', action='store_true')
     parser.add_argument('-workflow', action='store_true')
     parser.add_argument('-impala', action='store_true')
+    parser.add_argument('-autoaction', action='store_true')
     parser.add_argument('--spark-streaming', action='store_true')
     parser.add_argument('--hive-host', help='Hive server host', default='localhost')
     parser.add_argument('--hdfs-master', help='HDFS master host', default='localhost')

@@ -11,7 +11,7 @@ benchmark_folder = 'streaming-app-example-with-sources'
 
 def download_streaming_demo():
     if not os.path.isdir(benchmark_folder):
-        download_popen = Popen('curl http://preview.unraveldata.com/img/streaming-app-example-with-sources.zip -o %s.zip' % benchmark_folder, shell=True, stdout=PIPE)
+        download_popen = Popen('curl https://preview.unraveldata.com/img/streaming-app-example-with-sources.zip -o %s.zip' % benchmark_folder, shell=True, stdout=PIPE)
         download_popen.communicate()
 
         if download_popen.returncode != 0:
@@ -66,7 +66,7 @@ def run_streaming_demo():
         while streaming_app_popen.poll() is None:
             utilities.wait_animation('Spark streaming job is running PID {0} {1}'.format(streaming_app_popen.pid, producer_popen.pid))
         producer_popen.terminate()
-    except KeyboardInterrupt:
+    except:
         streaming_app_popen.terminate()
         producer_popen.terminate()
         exit()
