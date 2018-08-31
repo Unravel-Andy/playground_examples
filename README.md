@@ -15,7 +15,7 @@
 
 **To run part of the example use one of the following arguments:**
 
-[-spark] [-hive] [-workflow] [--spark-steaming] [-impala]
+[-spark] [-hive] [-workflow] [--spark-steaming] [-impala] [-autoaction]
 
 **By default all server address are using localhost:**
 
