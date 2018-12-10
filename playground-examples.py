@@ -1,6 +1,5 @@
 import os
-from subprocess import PIPE, Popen
-import threading
+#import threading
 import spark_example as SE
 import hive_example as HE
 import oozie_example as OE

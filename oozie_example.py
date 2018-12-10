@@ -9,6 +9,9 @@ os.chdir(main_dir)
 
 
 def download_benchmark():
+    """
+    Download oozie benchmark from preview server
+    """
     if not os.path.isdir(benchmark_folder):
         download_popen = Popen('curl https://preview.unraveldata.com/img/tagged_wf_sla_input.tgz -o %s.tgz' % benchmark_folder, shell=True, stdout=PIPE)
         download_popen.wait()

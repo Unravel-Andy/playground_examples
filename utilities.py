@@ -8,6 +8,8 @@ from time import sleep, time
 argv = None
 main_dir = os.path.dirname(os.path.realpath(__file__))
 os.chdir(main_dir)
+
+
 def args_parser():
     global argv
     parser = argparse.ArgumentParser()
@@ -25,8 +27,12 @@ def args_parser():
     parser.add_argument('--spark-example', help='from 1 to 6', default=1)
     argv = parser.parse_args()
 
-# Get cluster type currently only support CDH and HDP
+
 def cluster_type():
+    """
+    # Get cluster type currently only support CDH and HDP
+    :return: cluster type CDH, HDP, MAPR (Only support CDH at this moment)
+    """
     hadoop_version = Popen('hadoop version', shell=True, stdout=PIPE).communicate()[0]
     if re.search('cdh|cloudera', hadoop_version):
         return 'CDH'
@@ -34,19 +40,26 @@ def cluster_type():
         return 'OTHER'
 
 
-# Download TPCDS benchmark from githup
 def download_benchmark():
+    """
+    # Download TPCDS benchmark from githup
+    """
     if not os.path.isdir('hive-testbench'):
         download_popen = Popen('git clone https://github.com/hortonworks/hive-testbench.git', shell=True, stdout=PIPE)
-        download_popen.communicate()
+        result = download_popen.communicate()
         if download_popen.returncode != 0:
+            print(result[1])
             print('Failed to clone hive benchmark')
             exit(1)
 
 
-# Spinning animation
-# Input: Message need to print, how long this function will wait for
 def wait_animation(message, sleep_time=5):
+    """
+    Spinning animation
+    :param message: Message need to print
+    :param sleep_time: how long this function will wait for
+    :return:
+    """
     animation = "|/-\\"
     start_time = 0
     while start_time < sleep_time:
@@ -56,8 +69,10 @@ def wait_animation(message, sleep_time=5):
         sleep(1)
 
 
-# Run tpcds-build.sh script
 def build_tpcds():
+    """
+    Run tpcds-build.sh script
+    """
     os.chdir('hive-testbench')
     FNULL = open(os.devnull, 'w')
     if os.path.exists('tpcds-build.sh'):
@@ -73,8 +88,12 @@ def build_tpcds():
     os.chdir(main_dir)
 
 
-# Run tpcds-setup.sh script
 def setup_tpcds(hive2_host='localhost', data_size=100):
+    """
+    Run tpcds-setup.sh script
+    :param hive2_host: hive server2 hostname
+    :param data_size: data set size that will be generated
+    """
     os.chdir('hive-testbench')
     with open('tpcds-setup.sh', 'r+') as f:
         tpcds_content = f.read()
