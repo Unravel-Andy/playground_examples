@@ -34,7 +34,6 @@ def run_hive_benchmark():
     os.chdir(main_dir)
 
 
-
 def hive_example():
     has_tpcds = 'tpcds_text_100' in \
                 Popen('hive -e \'show databases;\'', shell=True, stdout=PIPE).communicate()[0]

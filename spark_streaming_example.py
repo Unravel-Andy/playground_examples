@@ -30,7 +30,9 @@ def prep_streaming_demo(hdfs_master='localhost'):
         streaming_app_content = f.read()
         if cluster_type == 'OTHER':
             sensor_path = 'UNRAVEL_SENSOR_PATH=/usr/local/unravel-agent/jars/'
-            streaming_app_content = re.sub('UNRAVEL_SENSOR_PATH=.*', sensor_path, streaming_app_content)
+        elif cluster_type == "CDH":
+            sensor_path = 'UNRAVEL_SENSOR_PATH=/opt/cloudera/parcels/UNRAVEL_SENSOR/lib/java/'
+        streaming_app_content = re.sub('UNRAVEL_SENSOR_PATH=.*', sensor_path, streaming_app_content)
 
         HDFS_MASTER = 'HDFS_MASTER="hdfs://%s:8020"' % hdfs_master
         streaming_app_content = re.sub('HDFS_MASTER=.*', HDFS_MASTER, streaming_app_content)
