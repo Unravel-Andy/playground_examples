@@ -24,7 +24,7 @@ def args_parser():
     parser.add_argument('--dataset-size', help='The size of the Dataset is using has to greater than 2 ', default=100)
     parser.add_argument('--impala-server', help='Impala server host', default='localhost')
     parser.add_argument('--impala-query', help='from 1 to 99 or all to run all queries', default=1)
-    parser.add_argument('--spark-example', help='from 1 to 6', default=1)
+    parser.add_argument('--spark-example', help='from 1 to 5', default=1)
     argv = parser.parse_args()
 
 

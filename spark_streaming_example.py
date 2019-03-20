@@ -1,6 +1,8 @@
 import re
 import os
 import glob
+import traceback
+import zipfile
 from subprocess import PIPE, Popen
 import utilities
 
@@ -10,6 +12,9 @@ benchmark_folder = 'streaming-app-example-with-sources'
 
 
 def download_streaming_demo():
+    """
+    Download zip file contains all the spark streaming source code from preview
+    """
     if not os.path.isdir(benchmark_folder):
         download_popen = Popen('curl https://preview.unraveldata.com/img/streaming-app-example-with-sources.zip -o %s.zip' % benchmark_folder, shell=True, stdout=PIPE)
         download_popen.communicate()
@@ -20,7 +25,9 @@ def download_streaming_demo():
         else:
             print('Download Spark Streaming benchmark success')
 
-        print(Popen('unzip %s.zip' % benchmark_folder, shell=True, stdout=PIPE).communicate()[0])
+        ss_demo_zip = zipfile.ZipFile('%s.zip' % benchmark_folder, 'r')
+        ss_demo_zip.extractall(os.getcwd())
+        ss_demo_zip.close()
 
 
 def prep_streaming_demo(hdfs_master='localhost'):
@@ -69,9 +76,9 @@ def run_streaming_demo():
             utilities.wait_animation('Spark streaming job is running PID {0} {1}'.format(streaming_app_popen.pid, producer_popen.pid))
         producer_popen.terminate()
     except:
+        traceback.print_exc()
         streaming_app_popen.terminate()
         producer_popen.terminate()
-        exit()
     os.chdir(main_dir)
     print('\nSpark streaming demo completed')
 
