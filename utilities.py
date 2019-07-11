@@ -25,6 +25,7 @@ def args_parser():
     parser.add_argument('--impala-server', help='Impala server host', default='localhost')
     parser.add_argument('--impala-query', help='from 1 to 99 or all to run all queries', default=1)
     parser.add_argument('--spark-example', help='from 1 to 5', default=1)
+    parser.add_argument('--branch', help="hive test bench branch", default='hdp26')
     argv = parser.parse_args()
 
 
@@ -77,6 +78,8 @@ def build_tpcds():
     FNULL = open(os.devnull, 'w')
     if os.path.exists('tpcds-build.sh'):
         build_popen = Popen(['./tpcds-build.sh'], stderr=FNULL, stdout=FNULL)
+        Popen("git stash".format(argv.branch), shell=True)
+        Popen("git checkout {0}".format(argv.branch), shell=True)
         try:
             while build_popen.poll() is None:
                 wait_animation('tpcds build in progress')
@@ -88,19 +91,19 @@ def build_tpcds():
     os.chdir(main_dir)
 
 
-def setup_tpcds(hive2_host='localhost', data_size=100):
+def setup_tpcds(hive2_jdbc_url='jdbc:hive2://localhost:10000/', data_size=100):
     """
     Run tpcds-setup.sh script
-    :param hive2_host: hive server2 hostname
+    :param hive2_jdbc_url: hive server2 hostname
     :param data_size: data set size that will be generated
     """
     os.chdir('hive-testbench')
     with open('tpcds-setup.sh', 'r+') as f:
         tpcds_content = f.read()
-        regex = 'localhost:2181\/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\?tez.queue.name=default'
+        regex = 'jdbc:hive2:\/\/localhost:2181\/;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=hiveserver2\?tez.queue.name=default'
         f.seek(0)
         f.truncate()
-        f.write(re.sub(regex, '%s:10000/' % hive2_host, tpcds_content))
+        f.write(re.sub(regex, hive2_jdbc_url, tpcds_content))
     with open('settings/load-partitioned.sql', 'r+') as f:
         load_sql = f.read()
         load_sql = re.sub('-- set mapreduce.map.memory.mb=.*', 'set mapreduce.map.memory.mb=6094;', load_sql)
@@ -110,10 +113,10 @@ def setup_tpcds(hive2_host='localhost', data_size=100):
         f.write(load_sql)
 
     FNULL = open(os.devnull, 'w')
-    Popen('sudo -u hdfs hdfs dfs -mkdir /data/', shell=True).communicate()
-    Popen('sudo -u hdfs hdfs dfs -mkdir /data/tpcds', shell=True).communicate()
-    Popen('sudo -u hdfs hdfs dfs -chmod -R 777 /data/', shell=True).communicate()
-    Popen('sudo -u hdfs hdfs dfs -chmod -R 777 /user/hive/warehouse', shell=True).communicate()
+    Popen('hdfs dfs -mkdir /data/', shell=True).communicate()
+    Popen('hdfs dfs -mkdir /data/tpcds', shell=True).communicate()
+    Popen('hdfs dfs -chmod -R 777 /data/', shell=True).communicate()
+    Popen('hdfs dfs -chmod -R 777 /user/hive/warehouse', shell=True).communicate()
     setup_popen = Popen('./tpcds-setup.sh %s /data/tpcds' % data_size, shell=True)
     try:
         setup_popen.communicate()

@@ -35,10 +35,10 @@ def run_hive_benchmark():
 
 
 def hive_example():
-    has_tpcds = 'tpcds_text_100' in \
+    has_tpcds = 'tpcds_text_{0}'.format(utilities.argv.dataset_size) in \
                 Popen('hive -e \'show databases;\'', shell=True, stdout=PIPE).communicate()[0]
     if not has_tpcds:
-        print("Hive before after require tpcds 100, will start generating tpcds in 10 seconds")
+        print("Hive before after require tpcds {0}, will start generating tpcds {0} in 10 seconds").format(utilities.argv.dataset_size)
         sleep(10)
         utilities.download_benchmark()
         utilities.build_tpcds()
